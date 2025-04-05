@@ -7,22 +7,17 @@ TARGET_DIR="/etc/systemd/system"
 
 # 追加: カレントディレクトリ、launch.shのパス、ユーザー名を自動取得
 LAUNCH_PATH="$(pwd)/launch.sh"        # launch.sh のフルパスを生成
-WORKING_DIR="$(pwd)"                # カレントディレクトリを取得
-CURRENT_USER="$(whoami)"            # 現在のユーザー名を取得
+WORKING_DIR="$(pwd)"                  # カレントディレクトリを取得
+CURRENT_USER="$(whoami)"              # 現在のユーザー名を取得
 
-# CURRENT_USER の存在チェック。存在しなければ代替ユーザーとして root を使用
-if id "$CURRENT_USER" >/dev/null 2>&1; then
-    USER_TO_USE="$CURRENT_USER"  # 指定ユーザーが存在する場合
-else
-    echo "指定ユーザー $CURRENT_USER は存在しません。代替ユーザー（root）を使用します。"
-    USER_TO_USE="root"
-fi
+# 代替ユーザー機能を削除し、常に CURRENT_USER を使用する
+USER_TO_USE="$CURRENT_USER"            # 常に現在のユーザーを使用
 
 # USER_TO_USE に応じたホームディレクトリの設定
 if [ "$USER_TO_USE" = "root" ]; then
-    HOME_DIR="/root"  # root の場合は /root
+    HOME_DIR="/root"                  # root の場合は /root
 else
-    HOME_DIR="/home/${USER_TO_USE}"  # それ以外は /home/<ユーザー名>
+    HOME_DIR="/home/${USER_TO_USE}"   # それ以外は /home/<ユーザー名>
 fi
 
 # サービスユニットファイルを自動生成（改修: 各行のコメントは別行に移動）
