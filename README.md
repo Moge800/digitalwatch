@@ -3,7 +3,7 @@
 raspberry pi + inky phat
 
 <!-- 画像を追加 -->
-![Raspberry Pi + Inky Phat](./images/pict.png)
+![Raspberry Pi + Inky Phat](./image/pict.png)
 
 ## インストール手順
 <!-- 手順の詳細を追記 -->
