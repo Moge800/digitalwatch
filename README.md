@@ -1,219 +1,222 @@
 # Digital Watch with Raspberry Pi + Inky PHAT
 
-デジタル時計プロジェクト - Raspberry Pi と Inky PHAT e-paper ディスプレイを使用したスタイリッシュなデジタル時計
+**Languages:** [English](README.md) | [日本語](README_ja.md)
+
+Digital clock project - A stylish digital clock using Raspberry Pi and Inky PHAT e-paper display
 
 ![Raspberry Pi + Inky PHAT Digital Watch](./image/pict.png)
 
-## 概要
+## Overview
 
-このプロジェクトは、Raspberry Pi と Pimoroni Inky PHAT e-paper ディスプレイを使用して、電力効率的でスタイリッシュなデジタル時計を作成します。e-paperディスプレイの特性により、低消費電力で常時表示が可能で、見やすい時計として機能します。
+This project creates a power-efficient and stylish digital clock using Raspberry Pi and Pimoroni Inky PHAT e-paper display. Thanks to the e-paper display characteristics, it enables low power consumption with always-on display, functioning as an easy-to-read clock.
 
-### 主な機能
+### Key Features
 
-- **日時表示**: 年月日、曜日、時分を表示
-- **自動更新**: 1分ごとに時刻を自動更新
-- **低消費電力**: e-paperディスプレイによる省電力設計
-- **自動起動**: システム起動時の自動開始（systemdサービス）
-- **回転対応**: 180度回転表示に対応
+- **Date and Time Display**: Shows year/month/day, day of the week, and hour/minute
+- **Auto Update**: Automatically updates time every minute
+- **Low Power Consumption**: Energy-efficient design with e-paper display
+- **Auto Start**: Automatic startup on system boot (systemd service)
+- **Rotation Support**: Supports 180-degree rotation display
 
-## ハードウェア要件
+## Hardware Requirements
 
-### 必須コンポーネント
-- **Raspberry Pi Zero 2 W** (推奨) または他のRaspberry Piモデル
-- **Pimoroni Inky PHAT** e-paper ディスプレイ
-- microSDカード (8GB以上推奨)
-- 電源アダプター (5V 2.5A推奨)
+### Required Components
+- **Raspberry Pi Zero 2 W** (recommended) or other Raspberry Pi models
+- **Pimoroni Inky PHAT** e-paper display
+- microSD card (8GB or larger recommended)
+- Power adapter (5V 2.5A recommended)
 
-### 接続方法
-Inky PHATをRaspberry PiのGPIOヘッダーに直接接続してください。追加の配線は不要です。
+### Connection Method
+Connect the Inky PHAT directly to the Raspberry Pi GPIO header. No additional wiring required.
 
-## ソフトウェア要件
+## Software Requirements
 
 ### OS
-- Raspberry Pi OS (Bullseye以降推奨)
-- Python 3.7以降
+- Raspberry Pi OS (Bullseye or later recommended)
+- Python 3.7 or later
 
-### 必要なPythonパッケージ
-- `inky` - Inky PHAT制御ライブラリ
-- `Pillow` - 画像処理ライブラリ
+### Required Python Packages
+- `inky` - Inky PHAT control library
+- `Pillow` - Image processing library
 
-## インストール手順
+## Installation Instructions
 
-### 1. 前提条件の確認
+### 1. Prerequisites Check
 ```bash
-# Pythonバージョンの確認
+# Check Python version
 python3 --version
 
-# pipの確認・アップデート
+# Check and update pip
 sudo apt update
 sudo apt install python3-pip
 ```
 
-### 2. プロジェクトのクローン
+### 2. Clone the Project
 ```bash
 git clone https://github.com/Moge800/digitalwatch.git
 cd digitalwatch
 ```
 
-### 3. 依存関係のインストール
+### 3. Install Dependencies
 ```bash
-# 必要なシステムパッケージをインストール
+# Install required system packages
 sudo apt install python3-venv
 
-# 仮想環境の作成（推奨）
+# Create virtual environment (recommended)
 python3 -m venv .venv
 source .venv/bin/activate
 
-# Pythonパッケージのインストール
+# Install Python packages
 pip install inky pillow
 ```
 
-### 4. 手動テスト実行
+### 4. Manual Test Execution
 ```bash
-# Hello Worldテストの実行
+# Execute Hello World test
 python3 hello_world.py
 
-# メインプログラムのテスト実行
+# Execute main program test
 python3 main.py
 ```
 
-### 5. システムサービスとして登録
+### 5. Register as System Service
 ```bash
-# サービスの登録と開始
+# Register and start service
 sudo bash register_service.sh
 
-# システム再起動
+# Reboot system
 sudo reboot
 ```
 
-## 使用方法
+## Usage
 
-### 手動実行
+### Manual Execution
 ```bash
 cd digitalwatch
 source .venv/bin/activate
 python3 main.py
 ```
 
-### サービス制御
+### Service Control
 ```bash
-# サービス状態の確認
+# Check service status
 sudo systemctl status digitalwatch.service
 
-# サービスの開始
+# Start service
 sudo systemctl start digitalwatch.service
 
-# サービスの停止
+# Stop service
 sudo systemctl stop digitalwatch.service
 
-# サービスの再起動
+# Restart service
 sudo systemctl restart digitalwatch.service
 
-# ログの確認
+# Check logs
 sudo journalctl -u digitalwatch.service -f
 ```
 
-### プログラムの停止
-手動実行時は `Ctrl+C` で停止できます。
+### Stopping the Program
+When running manually, you can stop with `Ctrl+C`.
 
-## 設定のカスタマイズ
+## Configuration Customization
 
-`main.py`ファイル内の定数を変更することで、表示をカスタマイズできます：
+You can customize the display by changing constants in the `main.py` file:
 
 ```python
-FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"  # フォントパス
-FONT_SIZE = 35                # フォントサイズ
-UPDATE_INTERVAL = 1           # 更新チェック間隔（秒）
-ROTATION_DEGREE = 180         # 画面回転角度（0, 90, 180, 270）
+FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"  # Font path
+FONT_SIZE = 35                # Font size
+UPDATE_INTERVAL = 1           # Update check interval (seconds)
+ROTATION_DEGREE = 180         # Screen rotation angle (0, 90, 180, 270)
 ```
 
-## トラブルシューティング
+## Troubleshooting
 
-### よくある問題と解決方法
+### Common Issues and Solutions
 
-#### 1. ディスプレイが表示されない
-- **原因**: Inky PHATが正しく接続されていない
-- **解決策**: GPIO接続を確認し、Raspberry Piを再起動
+#### 1. Display Not Showing
+- **Cause**: Inky PHAT is not properly connected
+- **Solution**: Check GPIO connection and restart Raspberry Pi
 
-#### 2. インポートエラー
+#### 2. Import Error
 ```bash
-# エラー例: ModuleNotFoundError: No module named 'inky'
+# Error example: ModuleNotFoundError: No module named 'inky'
 pip install inky pillow
 ```
 
-#### 3. 権限エラー
+#### 3. Permission Error
 ```bash
-# GPIO アクセス権限の確認
+# Check GPIO access permissions
 sudo usermod -a -G gpio $USER
-# ログアウト・ログインが必要
+# Logout and login required
 ```
 
-#### 4. フォントが表示されない
-- **原因**: 指定したフォントファイルが存在しない
-- **解決策**: デフォルトフォントが自動的に使用されます
+#### 4. Font Not Displaying
+- **Cause**: Specified font file does not exist
+- **Solution**: Default font will be used automatically
 
-#### 5. サービスが起動しない
+#### 5. Service Won't Start
 ```bash
-# サービス状態とログの確認
+# Check service status and logs
 sudo systemctl status digitalwatch.service
 sudo journalctl -u digitalwatch.service --since "10 minutes ago"
 ```
 
-### ログの確認方法
+### Log Checking Methods
 ```bash
-# リアルタイムログ監視
+# Real-time log monitoring
 sudo journalctl -u digitalwatch.service -f
 
-# 過去5分間のログ
+# Last 5 minutes of logs
 sudo journalctl -u digitalwatch.service --since "5 minutes ago"
 ```
 
-## ファイル構成
+## File Structure
 
 ```
 digitalwatch/
-├── main.py                 # メインプログラム
-├── hello_world.py          # テスト用プログラム
-├── launch.sh              # 起動スクリプト
-├── register_service.sh    # サービス登録スクリプト
-├── README.md              # このファイル
-├── license.txt            # ライセンス情報
+├── main.py                 # Main program
+├── hello_world.py          # Test program
+├── launch.sh              # Launch script
+├── register_service.sh    # Service registration script
+├── README.md              # This file (English)
+├── README_ja.md           # Japanese README
+├── license.txt            # License information
 └── image/
-    └── pict.png           # プロジェクト画像
+    └── pict.png           # Project image
 ```
 
-## 開発情報
+## Development Information
 
-### 開発環境のセットアップ
+### Development Environment Setup
 ```bash
-# 開発用仮想環境の作成
+# Create development virtual environment
 python3 -m venv .venv
 source .venv/bin/activate
 pip install inky pillow
 
-# コードの編集
-# VS Codeワークスペースファイル: digitalwatch.code-workspace
+# Code editing
+# VS Code workspace file: digitalwatch.code-workspace
 ```
 
-### コードの構造
-- `get_formatted_time()`: 時刻フォーマット処理
-- `load_font()`: フォント読み込み
-- `update_display()`: ディスプレイ更新
-- `calculate_sleep_time()`: 次の分境界までの待機時間計算
-- `main()`: メインループ
+### Code Structure
+- `get_formatted_time()`: Time formatting processing
+- `load_font()`: Font loading
+- `update_display()`: Display update
+- `calculate_sleep_time()`: Calculate wait time until next minute boundary
+- `main()`: Main loop
 
-## ライセンス
+## License
 
-このプロジェクトはApache License 2.0の下でライセンスされています。詳細は [license.txt](license.txt) をご覧ください。
+This project is licensed under Apache License 2.0. See [license.txt](license.txt) for details.
 
-## 貢献
+## Contributing
 
-バグ報告や機能追加の提案は、GitHubのIssueまたはPull Requestでお願いします。
+Bug reports and feature requests are welcome via GitHub Issues or Pull Requests.
 
-## 作者
+## Author
 
-- **Moge800** - プロジェクト作成者
+- **Moge800** - Project creator
 
 ---
 
-**注意**: このプロジェクトはRaspberry Pi専用です。他のプラットフォームでの動作は保証されません。
+**Note**: This project is designed specifically for Raspberry Pi. Operation on other platforms is not guaranteed.
